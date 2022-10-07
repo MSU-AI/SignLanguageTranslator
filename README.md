@@ -8,3 +8,4 @@ MSU AIClub project lead by Kenneth Sun
 - Anh, Dao (John)
 - Kirsten Gross
 - Neha Aigalikar
+- Aditya Pandey
