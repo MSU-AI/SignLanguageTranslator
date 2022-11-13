@@ -1,5 +1,8 @@
 # Sign Language Translator
 We aim to create a web application that translates [American Sign Language](https://en.wikipedia.org/wiki/American_Sign_Language) into English. We will use hand/finger tracking and possibly pose detection to recognize individual signs, which is then translated into English by natural language processing.
+
+We use Dynamic Time Warping to compute the similarity between two landmarked segments, a method inspired by [this project](https://github.com/gabguerin/Sign-Language-Recognition--MediaPipe-DTW/). 
+
 <table>
   <tbody>
     <tr>
