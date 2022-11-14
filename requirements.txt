@@ -8,3 +8,5 @@ pytube
 tdqm
 flask
 yt-dlp
+beautifulsoup4
+requests
