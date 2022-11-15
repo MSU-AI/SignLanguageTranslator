@@ -18,6 +18,7 @@ from bs4 import BeautifulSoup
 
 FOLDER = os.path.join("data", "videos")
 BASE_URL = 'https://www.signasl.org/sign/'
+SIGNS = ['Hello', 'Yes', 'No', 'My', 'Name']
 
 def scrape_warn(text, *args):
 
@@ -51,7 +52,9 @@ def download_video(name, url, start_time, duration_time):
             'home': file_path,
         },
         'outtmpl': {
-            'default': '{}-%(title)s.%(ext)s'.format(name),
+            #'default': '{}-%(title)s-%(uploader)s-%(id)s.%(ext)s'.format(name),
+            'default': '{}-%(title)s-%(upload_date)s.%(ext)s'.format(name),
+
         }
     }
 
@@ -176,4 +179,5 @@ def get_videos(name):
 
             download_video(sign, url, 0, 0)
 
-get_videos('test')
+for word in SIGNS:
+    get_videos(word)
