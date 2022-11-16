@@ -215,5 +215,3 @@ def get_videos(name, ignore=False):
 
             download_video(sign, url, 0, 0)
 
-for sing in SIGNS:
-    get_videos(sing)
