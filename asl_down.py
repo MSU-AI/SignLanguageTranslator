@@ -215,3 +215,79 @@ def get_videos(name, ignore=False):
 
             download_video(sign, url, 0, 0)
 
+            down += 1
+
+    print("\n --== [ End Video Download ] ==-- ")
+
+def parse_file(path):
+
+    # Open the file for reading:
+
+    file = open(path, 'r')
+
+    # Read the file:
+
+    signs = []
+
+    for line in file:
+
+        signs.append(line.rstrip())
+
+    return signs
+
+if __name__ == '__main__':
+
+    parser = argparse.ArgumentParser(description='ASL Video Downloader')
+
+    # Add names:
+
+    parser.add_argument('sign', help='Query used to download videos', nargs='*')
+
+    # Other various options:
+
+    parser.add_argument('-ne', '--no-extract', help='Does not extract landmarks from videos.', action='store_false')
+    parser.add_argument('-i', '--ignore', help='Ignores any videos that do no match our search query', action='store_true')
+    parser.add_argument('-f', '--file', help='Gets signs to download from a file, each sign on a new line', type=str, default='0')
+
+    # Get our arguments
+
+    args = parser.parse_args()
+
+    signs = set(args.sign)
+
+    # Determine if we are getting info from file:
+
+    if args.file != '0':
+
+        print("Extracting signs from file...")
+
+        signs.update(set(parse_file(args.file)))
+
+    print("Signs to download: {}".format(signs))
+
+    # Now, do the operation:
+
+    for sign in signs:
+
+        print("Doing operation for: {}".format(sign))
+
+        get_videos(sign, args.ignore)
+    # Determine if we should extract videos:
+
+    if args.no_extract:
+
+        # Now, extract the landmarks from these videos:
+
+        print("\n --== [ Landmark Extraction ] ==--\n")
+
+        # Load the dataset, and build reference signs:
+
+        load_dataset()
+
+        print("\n --== [End Landmark Extraction ] ==--\n")
+
+    else:
+
+        print("Skipping landmark extraction...")
+
+    print("\nDone!")
