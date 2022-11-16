@@ -53,7 +53,8 @@ def download_video(name, url, start_time, duration_time):
             'home': file_path,
         },
         'outtmpl': {
-            'default': '{}-%(title)s.%(ext)s'.format(name),
+            'default': '{}-%(title)s-%(upload_date)s.%(ext)s'.format(name),
+
         }
     }
 
@@ -271,7 +272,6 @@ if __name__ == '__main__':
         print("Doing operation for: {}".format(sign))
 
         get_videos(sign, args.ignore)
-
     # Determine if we should extract videos:
 
     if args.no_extract:
