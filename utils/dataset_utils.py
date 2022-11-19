@@ -7,19 +7,23 @@ from models.sign_model import SignModel
 from utils.landmark_utils import save_landmarks_from_video, load_array
 
 
-def load_dataset():
+def load_dataset(check=True):
     videos = [
         file_name.replace(".mp4", "")
         for root, dirs, files in os.walk(os.path.join("data", "videos"))
         for file_name in files
         if file_name.endswith(".mp4")
     ]
+
     dataset = [
         file_name.replace(".pickle", "").replace("pose_", "")
         for root, dirs, files in os.walk(os.path.join("data", "dataset"))
         for file_name in files
         if file_name.endswith(".pickle") and file_name.startswith("pose_")
     ]
+    if not check:
+        print("Skipping extraction of unprocessed videos")
+        return dataset
 
     # Create the dataset from the reference videos
     videos_not_in_dataset = list(set(videos).difference(set(dataset)))
@@ -28,7 +32,13 @@ def load_dataset():
         print(f"\nExtracting landmarks from new videos: {n} videos detected\n")
 
         for idx in tqdm(range(n)):
-            save_landmarks_from_video(videos_not_in_dataset[idx])
+            try:
+                save_landmarks_from_video(videos_not_in_dataset[idx])
+            except AttributeError:
+                print(f"Unable to extract landmarks from: {videos_not_in_dataset[idx]}")
+                # remove the video from the list
+                videos.pop(videos.index(videos_not_in_dataset[idx]))
+                continue
 
     return videos
 

@@ -1,3 +1,4 @@
+import argparse
 import cv2
 import mediapipe
 
@@ -8,8 +9,13 @@ from webcam_manager import WebcamManager
 
 
 if __name__ == "__main__":
+    
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-ne', '--no-extract', help='Does not extract landmarks from videos.', action='store_false')
+
+    args = parser.parse_args()
     # Create dataset of the videos where landmarks have not been extracted yet
-    videos = load_dataset()
+    videos = load_dataset(check=args.no_extract)
 
     # Create a DataFrame of reference signs (name: str, model: SignModel, distance: int)
     reference_signs = load_reference_signs(videos)
@@ -21,7 +27,7 @@ if __name__ == "__main__":
     webcam_manager = WebcamManager()
 
     # Turn on the webcam
-    cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+    cap = cv2.VideoCapture(0)
     # Set up the Mediapipe environment
     with mediapipe.solutions.holistic.Holistic(
         min_detection_confidence=0.5, min_tracking_confidence=0.5

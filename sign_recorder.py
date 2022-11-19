@@ -1,3 +1,4 @@
+import time
 import pandas as pd
 import numpy as np
 from collections import Counter
@@ -38,7 +39,10 @@ class SignRecorder(object):
             if len(self.recorded_results) < self.seq_len:
                 self.recorded_results.append(results)
             else:
+                dwt_start = time.process_time()
                 self.compute_distances()
+                dwt_end = time.process_time()
+                print("DWT compute time: ", dwt_end - dwt_start)
                 print(self.reference_signs)
 
         if np.sum(self.reference_signs["distance"].values) == 0:
